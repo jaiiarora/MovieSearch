@@ -18,24 +18,13 @@ Routing = On what url what is shown
 
 app.get('/', (req,res)=>{
     res.send("Home Page");
-})
+});
 
 app.get('/jai',(req,res)=>
 {
     res.render("home");
-})
+});
 
-
-
-app.get('/student/:rollno', (req,res)=>{
-    console.log(req);
-    console.log(req.params);
-    //template string
-    
-    //notice that those are backticks
-    res.send(`you are viwing page for ${req.params.rollno}`);
-
-})
 
 app.get('/result',(req,res)=>{
     console.log(req.query.movieName);
@@ -57,6 +46,35 @@ app.get('/result',(req,res)=>{
         }
     });
 }); 
+
+app.get('/result/:id', (req,res)=>{
+    console.log(req);
+    console.log(req.params);
+    console.log(req.query.movieName);
+    const url=`http://www.omdbapi.com/?apikey=85217a30&i=${req.params.id}`;
+    request(url, function(err,response,body)
+    {
+        if (!err && response.statusCode===200)
+        {
+            //converting json to js object
+            const data=JSON.parse(body);
+            console.log(data);
+            //res.send(data);
+            //data is  a JS variable accessible in js
+            res.render('detail',{data:data});
+        }
+        else{
+              res.send("Something went wrong");  
+        }
+    });
+
+});
+
+
+app.get('*',(req,res)=>{
+    res.send("404 not found");
+});
+
 
 app.listen(3000,()=>{
     console.log("Server has Started");
