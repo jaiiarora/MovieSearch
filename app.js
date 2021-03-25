@@ -17,18 +17,11 @@ Routing = On what url what is shown
 //test comment
 
 app.get('/', (req,res)=>{
-    res.send("Home Page");
-});
-
-app.get('/jai',(req,res)=>
-{
     res.render("home");
 });
 
-
 app.get('/result',(req,res)=>{
     console.log(req.query.movieName);
-    //res.send(`You searched for Movie, ${req.query.movieName}`);
     const url=`http://www.omdbapi.com/?apikey=85217a30&s=${req.query.movieName}`;
     request(url, function(err,response,body)
     {
@@ -39,7 +32,7 @@ app.get('/result',(req,res)=>{
             console.log(data);
             //res.send(data);
             //moviesDum is  a JS variable accessible in js
-            res.render('result', {moviesDump:data});
+            res.render('result', {moviesDump:data,movieQuery:req.query.movieName});
         }
         else{
               res.send("Something went wrong");  
@@ -70,6 +63,10 @@ app.get('/result/:id', (req,res)=>{
 
 });
 
+app.get('/AboutMe',(req,res)=>{
+    res.render("aboutme");
+
+});
 
 app.get('*',(req,res)=>{
     res.send("404 not found");

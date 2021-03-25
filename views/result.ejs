@@ -1,19 +1,22 @@
 <%- include("./partials/header")%>
-  <div class="container">
-    <div class="row">
+  <div class="container mt-2">
+    <div class="row my-2">
 
       <% if(moviesDump.Response==='False' ){%>
         <h1>Movie not found</h1>
         <% }else{%>
-          <h1>Result goes here</h1>
+          <h1>Results for <%=movieQuery%>
+          </h1>
           <% moviesDump['Search'].forEach(function(movie){%>
-            <div class="card" style="width: 18rem;">
+            <div class="card mx-2 my-2 border-0" style="width: 18rem;">
               <img class="card-img-top" src="<%=movie.Poster%>" alt="Card image cap">
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's
-                  content.</p>
+                <h5 class="card-title">
+                  <%=movie.Title%>
+                </h5>
+                <p class="card-text">
+                  <%=movie.Year%>
+                </p>
                 <a href="/result/<%=movie.imdbID%>" class="btn btn-primary">Know More.</a>
               </div>
             </div>
